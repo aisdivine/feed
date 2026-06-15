@@ -3,75 +3,133 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Feed</title>
+<title>the feed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0f1115;
-    --panel: #171a21;
-    --ink: #e7e9ee;
-    --muted: #8b90a0;
-    --line: #262b36;
-    --accent: #6ee7b7;
-    --accent-dim: #2f4f43;
+    --bg:        #efe7d9;   /* warm sand paper        */
+    --surface:   #fbf8f2;   /* card                   */
+    --surface-2: #f5eee2;   /* hover / inset          */
+    --ink:       #322a20;   /* deep warm brown-black  */
+    --soft-ink:  #5a4f40;   /* reading text           */
+    --muted:     #9c8f7b;   /* warm taupe             */
+    --line:      #e6dbc8;
+    --wood:      #a6764b;   /* oak / walnut accent    */
+    --wood-soft: #cdaa80;
+    --shadow:    0 1px 2px rgba(70,52,32,.05), 0 10px 30px rgba(70,52,32,.06);
   }
   * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body {
     margin: 0;
-    background: var(--bg);
+    background:
+      radial-gradient(1200px 500px at 50% -200px, #f6efe2 0%, transparent 70%),
+      var(--bg);
     color: var(--ink);
-    font: 16px/1.5 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-family: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.55;
   }
   header {
-    position: sticky; top: 0; z-index: 10;
-    background: rgba(15,17,21,.9);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--line);
-    padding: 18px 24px 12px;
+    max-width: 760px; margin: 0 auto; padding: 56px 24px 8px;
   }
-  h1 {
-    margin: 0; font-size: 22px; letter-spacing: -.02em;
-    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  .wordmark {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 500; font-size: 40px; letter-spacing: -.02em;
+    margin: 0; color: var(--ink);
   }
-  h1 .dot { color: var(--accent); }
-  .meta { color: var(--muted); font-size: 13px; margin-top: 4px; }
-  .filters { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .wordmark .underline {
+    display: block; width: 46px; height: 4px; border-radius: 4px; margin-top: 10px;
+    background: linear-gradient(90deg, var(--wood), var(--wood-soft));
+  }
+  .meta { color: var(--muted); font-size: 13.5px; margin-top: 14px; }
+  .filters { margin: 22px 0 6px; display: flex; flex-wrap: wrap; gap: 8px; }
   .chip {
-    border: 1px solid var(--line); background: var(--panel); color: var(--muted);
-    border-radius: 999px; padding: 5px 13px; font-size: 13px; cursor: pointer;
-    user-select: none; transition: .12s;
+    font-size: 13px; cursor: pointer; user-select: none;
+    border: 1px solid var(--line); background: var(--surface); color: var(--muted);
+    border-radius: 999px; padding: 6px 15px; transition: .15s; text-transform: lowercase;
   }
-  .chip:hover { color: var(--ink); border-color: var(--accent-dim); }
-  .chip.active { color: var(--bg); background: var(--accent); border-color: var(--accent); }
-  main { max-width: 820px; margin: 0 auto; padding: 20px 16px 80px; }
+  .chip:hover { color: var(--ink); border-color: var(--wood-soft); }
+  .chip.active {
+    color: var(--surface); background: var(--wood); border-color: var(--wood);
+    box-shadow: 0 4px 12px rgba(166,118,75,.25);
+  }
+
+  main { max-width: 760px; margin: 0 auto; padding: 14px 16px 96px; }
+
   .card {
-    border: 1px solid var(--line); background: var(--panel);
-    border-radius: 12px; padding: 14px 16px; margin-bottom: 12px;
-    transition: .12s;
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 20px 22px;
+    margin-bottom: 14px;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
   }
-  .card:hover { border-color: var(--accent-dim); }
-  .card a.title { color: var(--ink); text-decoration: none; font-weight: 600; font-size: 17px; }
-  .card a.title:hover { color: var(--accent); }
-  .summary { color: var(--muted); margin: 7px 0 9px; font-size: 14.5px; }
-  .row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 12.5px; }
+  .card:hover { transform: translateY(-2px); border-color: var(--wood-soft); }
+  .card.open { border-color: var(--wood-soft); }
+
+  .title {
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 20px; font-weight: 500; line-height: 1.32; letter-spacing: -.01em;
+    color: var(--ink); text-decoration: none; display: inline;
+  }
+  .title:hover { color: var(--wood); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  .summary { color: var(--soft-ink); margin: 9px 0 12px; font-size: 15px; }
+
+  .row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font-size: 12.5px; }
   .tag {
-    text-transform: uppercase; letter-spacing: .04em; font-size: 11px;
-    color: var(--accent); border: 1px solid var(--accent-dim); border-radius: 5px;
-    padding: 1px 7px;
+    text-transform: lowercase; letter-spacing: .02em; font-weight: 600; font-size: 11.5px;
+    color: var(--wood); background: var(--surface-2); border: 1px solid var(--line);
+    border-radius: 6px; padding: 2px 9px;
   }
   .src { color: var(--muted); }
-  .score { color: var(--muted); margin-left: auto; font-family: ui-monospace, monospace; }
-  .ext { color: var(--muted); text-decoration: none; }
-  .ext:hover { color: var(--accent); }
-  footer { text-align: center; color: var(--muted); font-size: 12px; padding: 24px; }
+  .spacer { margin-left: auto; }
+  .score { color: var(--muted); font-variant-numeric: tabular-nums; font-size: 12px; }
+  .ext {
+    color: var(--wood); text-decoration: none; font-weight: 500;
+    display: inline-flex; align-items: center; gap: 3px;
+  }
+  .ext:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .chev {
+    color: var(--muted); transition: transform .26s ease; font-size: 13px;
+    display: inline-block;
+  }
+  .card.open .chev { transform: rotate(180deg); color: var(--wood); }
+
+  /* Smooth expand using the grid-rows 0fr→1fr trick */
+  .detail-wrap {
+    display: grid; grid-template-rows: 0fr;
+    transition: grid-template-rows .28s ease;
+  }
+  .card.open .detail-wrap { grid-template-rows: 1fr; }
+  .detail-inner { overflow: hidden; }
+  .detail {
+    margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line);
+    color: var(--soft-ink); font-size: 15.5px; line-height: 1.65;
+  }
+
+  footer { text-align: center; color: var(--muted); font-size: 12.5px; padding: 8px 24px 40px; }
+  footer a { color: var(--wood); text-decoration: none; }
+
+  @media (max-width: 560px) {
+    header { padding-top: 36px; }
+    .wordmark { font-size: 32px; }
+    .card { padding: 17px 18px; }
+  }
 </style>
 </head>
 <body>
 <header>
-  <h1>THE FEED<span class="dot">.</span></h1>
+  <h1 class="wordmark">the feed<span class="underline"></span></h1>
   <div class="meta">
-    {{ items|length }} items · updated {{ generated }}
-    {%- if enriched %} · summarized &amp; ranked by Claude{% endif %}
-    {%- if dropped %} · {{ dropped }} filtered out{% endif %}
+    {{ items|length }} stories · {{ generated }}
+    {%- if enriched %} · read &amp; ranked for you{% endif %}
+    {%- if dropped %} · {{ dropped }} skipped{% endif %}
   </div>
   <div class="filters" id="filters">
     <span class="chip active" data-tag="all">all</span>
@@ -87,16 +145,27 @@
     <div class="row">
       <span class="tag">{{ it.tag|default('news') }}</span>
       <span class="src">{{ it.source }}</span>
-      {% if it.comments_url %}<a class="ext" href="{{ it.comments_url }}" target="_blank" rel="noopener">comments ↗</a>{% endif %}
+      <span class="spacer"></span>
       {% if it.score is defined %}<span class="score">{{ it.score }}/10</span>{% endif %}
+      <span class="chev">⌄</span>
     </div>
+    {% if it.detail %}
+    <div class="detail-wrap"><div class="detail-inner">
+      <div class="detail">
+        {{ it.detail }}
+        {% if it.comments_url %}<br><a class="ext" href="{{ it.comments_url }}" target="_blank" rel="noopener">discussion ↗</a>{% endif %}
+        <a class="ext" href="{{ it.url }}" target="_blank" rel="noopener" style="margin-left:14px">read full ↗</a>
+      </div>
+    </div></div>
+    {% endif %}
   </article>
   {% endfor %}
 </main>
 
-<footer>built by build.py · GitHub Pages · self-curated, no algorithm but yours</footer>
+<footer>your sources, your interests, your pace · <a href="https://github.com/aisdivine/my-feed">built with build.py</a></footer>
 
 <script>
+  // Tag filtering
   const chips = document.querySelectorAll('#filters .chip');
   const cards = document.querySelectorAll('#list .card');
   chips.forEach(chip => chip.addEventListener('click', () => {
@@ -106,6 +175,12 @@
     cards.forEach(card => {
       card.style.display = (tag === 'all' || card.dataset.tag === tag) ? '' : 'none';
     });
+  }));
+
+  // Click a card to expand its summary; clicks on links still navigate out.
+  cards.forEach(card => card.addEventListener('click', e => {
+    if (e.target.closest('a')) return;
+    card.classList.toggle('open');
   }));
 </script>
 </body>

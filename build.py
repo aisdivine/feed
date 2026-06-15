@@ -18,6 +18,7 @@ from __future__ import annotations
 import html
 import json
 import os
+import re
 import sys
 import time
 from datetime import datetime, timezone
@@ -114,6 +115,18 @@ def fetch_all(cfg: dict) -> list[dict]:
     return items
 
 
+def strip_html(s: str) -> str:
+    return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", s or "")).strip()
+
+
+def ensure_detail(items: list[dict]) -> list[dict]:
+    """Guarantee every card has something to show when expanded."""
+    for it in items:
+        if not it.get("detail"):
+            it["detail"] = strip_html(it.get("blurb", ""))[:400]
+    return items
+
+
 def dedup(items: list[dict]) -> list[dict]:
     seen, out = set(), []
     for it in items:
@@ -139,13 +152,14 @@ ENRICH_SCHEMA = {
                 "properties": {
                     "i": {"type": "integer"},
                     "summary": {"type": "string"},
+                    "detail": {"type": "string"},
                     "tag": {
                         "type": "string",
                         "enum": ["ai", "tech", "world", "science", "business", "fun", "other"],
                     },
                     "score": {"type": "integer"},
                 },
-                "required": ["i", "summary", "tag", "score"],
+                "required": ["i", "summary", "detail", "tag", "score"],
             },
         }
     },
@@ -162,15 +176,20 @@ def enrich_batch(client, interests: str, batch: list[dict]) -> dict[int, dict]:
     prompt = (
         "You are curating a personal news dashboard for someone with these "
         f"interests:\n{interests}\n\n"
-        "For each numbered item below, return: a one-sentence plain-English "
-        "summary (no preamble, max ~25 words), a single category tag, and a "
-        "relevance score 0-10 for how much THIS person would care (10 = "
-        "must-read, 0 = irrelevant/spam). Use the item's index as `i`.\n\n"
+        "For each numbered item below, return:\n"
+        "- summary: one tight sentence, no preamble, max ~22 words (the card headline).\n"
+        "- detail: a genuinely useful 2-4 sentence brief (~50-80 words) for someone "
+        "who clicks in — what happened, the key facts/numbers, and why it matters. "
+        "Plain English, no fluff, no 'this article discusses'.\n"
+        "- tag: a single category.\n"
+        "- score: relevance 0-10 for how much THIS person would care "
+        "(10 = must-read, 0 = irrelevant/spam).\n"
+        "Use the item's index as `i`.\n\n"
         f"{listing}"
     )
     resp = client.messages.create(
         model=MODEL,
-        max_tokens=8000,
+        max_tokens=12000,
         output_config={"format": {"type": "json_schema", "schema": ENRICH_SCHEMA}},
         messages=[{"role": "user", "content": prompt}],
     )
@@ -198,6 +217,7 @@ def enrich(items: list[dict], cfg: dict) -> list[dict]:
             row = rows.get(idx)
             if row:
                 it["summary"] = row["summary"]
+                it["detail"] = row["detail"]
                 it["tag"] = row["tag"]
                 it["score"] = int(row["score"])
     return items
@@ -248,6 +268,7 @@ def main() -> int:
 
     before = len(items)
     items = enrich(items, cfg)
+    items = ensure_detail(items)
     items = rank(items, cfg)
     dropped = before - len(items)
 
