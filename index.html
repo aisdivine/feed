@@ -1,0 +1,913 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Feed</title>
+<style>
+  :root {
+    --bg: #0f1115;
+    --panel: #171a21;
+    --ink: #e7e9ee;
+    --muted: #8b90a0;
+    --line: #262b36;
+    --accent: #6ee7b7;
+    --accent-dim: #2f4f43;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.5 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  header {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(15,17,21,.9);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+    padding: 18px 24px 12px;
+  }
+  h1 {
+    margin: 0; font-size: 22px; letter-spacing: -.02em;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  h1 .dot { color: var(--accent); }
+  .meta { color: var(--muted); font-size: 13px; margin-top: 4px; }
+  .filters { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    border: 1px solid var(--line); background: var(--panel); color: var(--muted);
+    border-radius: 999px; padding: 5px 13px; font-size: 13px; cursor: pointer;
+    user-select: none; transition: .12s;
+  }
+  .chip:hover { color: var(--ink); border-color: var(--accent-dim); }
+  .chip.active { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  main { max-width: 820px; margin: 0 auto; padding: 20px 16px 80px; }
+  .card {
+    border: 1px solid var(--line); background: var(--panel);
+    border-radius: 12px; padding: 14px 16px; margin-bottom: 12px;
+    transition: .12s;
+  }
+  .card:hover { border-color: var(--accent-dim); }
+  .card a.title { color: var(--ink); text-decoration: none; font-weight: 600; font-size: 17px; }
+  .card a.title:hover { color: var(--accent); }
+  .summary { color: var(--muted); margin: 7px 0 9px; font-size: 14.5px; }
+  .row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 12.5px; }
+  .tag {
+    text-transform: uppercase; letter-spacing: .04em; font-size: 11px;
+    color: var(--accent); border: 1px solid var(--accent-dim); border-radius: 5px;
+    padding: 1px 7px;
+  }
+  .src { color: var(--muted); }
+  .score { color: var(--muted); margin-left: auto; font-family: ui-monospace, monospace; }
+  .ext { color: var(--muted); text-decoration: none; }
+  .ext:hover { color: var(--accent); }
+  footer { text-align: center; color: var(--muted); font-size: 12px; padding: 24px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>THE FEED<span class="dot">.</span></h1>
+  <div class="meta">
+    74 items · updated 2026-06-15 16:04 UTC
+  </div>
+  <div class="filters" id="filters">
+    <span class="chip active" data-tag="all">all</span>
+    <span class="chip" data-tag="other">other</span>
+  </div>
+</header>
+
+<main id="list">
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.ycombinator.com/item?id=48542064" target="_blank" rel="noopener">Hetzner increased dedicated server prices 3-4x</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">Hacker News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://crankgpt.com" target="_blank" rel="noopener">CrankGPT</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">Hacker News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://www.salesforce.com/news/press-releases/2026/06/15/salesforce-signs-definitive-agreement-to-acquire-fin/?bc=HL" target="_blank" rel="noopener">Salesforce to Acquire Fin (formerly Intercom) for $3.6BN</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">Hacker News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://daniel.haxx.se/blog/2026/06/15/curl-summer-of-bliss/" target="_blank" rel="noopener">Curl will not accept vulnerability reports during July 2026</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">Hacker News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models" target="_blank" rel="noopener">Apple Foundation Models</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">Hacker News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://karthinks.com/software/even-more-batteries-included-with-emacs/" target="_blank" rel="noopener">Even more batteries included with Emacs</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">Hacker News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMihgFBVV95cUxQb3dLRUwzdk1RYWV6S1dOLTNjYXFULU5BVGpCOFFkSEhrUksyNWpEZ1JmVV96RThKTnJUcXNxbXhyWG9xeDA5cUZpVW4xRllIMTN5ZGxnTG5obFdlNXpWSi0wb1BhNllsbURmM0h6SU1DVzM2Z0F2NzVCMmQyNzBvOVBRU1JQdw?oc=5" target="_blank" rel="noopener">U.S. and Iran reach deal to extend ceasefire and open strait - Axios</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMitgFBVV95cUxQWEIyTFlXM01uTEJMaG8tcWU0YVBRVW4tRnkzVXYySllhR3M4UjhuM3F1MjhWZWtPMlUydHEyMUhlV3FiTmY5MXROMzZJdTNES0FHYUpvY21WMGdJMVg1RHJnRzdDcjlFUXBCT0FXRGt0S1VPT2Y3aTVlU19jYkxiVTZNQ25FZUd4NWhzTGFmVlFySDZEcF9LZjFockRoY1dlVklCUUYwcGw3c3ExSGxnMUJjLUZvZw?oc=5" target="_blank" rel="noopener">At G-7, allies plan for a world less reliant on the U.S. - The Washington Post</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMiVEFVX3lxTFBIbnUxdFJZN0FkeW5IZlkyV3J6cDFCRnZabjlQXzlWSkV5aDdiNzdVY2wxTThXNEp6S2tfWU1yRTBkM1lueXNtc1pIMG5Qalk3eXJuQw?oc=5" target="_blank" rel="noopener">Under-16s to be banned from social media by next spring, Starmer says - BBC</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMirAFBVV95cUxQU1JDUUlTcmtOT1puNVotUXd2YzVsa25YQTYtdVg0NDN5UzZlYkQzRHpyWmxZbFlfV3JJdGJmRkE3MjR3X25MbGJta1NHZV82bTIzRUEwMHV4Y1g1bW1LRmJ0azFtaGNoNmtqQzRZQ3ZlRUxEU3BldGNBWDFubC1Zdy1xNnRPQ1lXdE1ESy0tX0VtTUMwOFVrVTNOZW16a1VJMFlSWm4tSXc2TnR4?oc=5" target="_blank" rel="noopener">El Niño has arrived: 5 ways California could get pummeled - Los Angeles Times</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMihwFBVV95cUxQejd0U3RURklmb0FwbWpsZG5FWmJ1YlBpVXdEdXRGNDRaY011ekVRb3pjZjVqZVdjcmp1SWhWMlhWbnZPRDVTZ21Hei12dXBhckNlejdjOWNQMVp1SDFPQjlhQ3BQLWlnRTdTck96T2lRTGczM3FHeWhKZDE0MTNXTG9TdElzS3c?oc=5" target="_blank" rel="noopener">U.S.-Iran deal updates: Israel says no Lebanon withdrawal, Iran says funds expected before final talks - CBS News</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMilAFBVV95cUxPSlltSHdIMVI4ck5RWGZVcy1ZbW92THhaQXdfVHZoQW52dkg1ZEc4UTFxTjkxNXFiMzlNQVFWMTJkSGV0MS1WU2o2bXRGSy1WVnZRdjFwNi1TWGFZNnFTcVRvZTJvb0JsM0FjeWhZR3JmR3diQlBQbm1SeGY3VThOQkhtOXRraXFMeWQ0MXdEcXpWTTc3?oc=5" target="_blank" rel="noopener">As Luigi Mangione&#39;s lawyers head to court, support grows for the accused &#39;vigilante&#39; - NPR</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMiqwFBVV95cUxQQm9DNTdtaHZfYjJsa1ZpZjdhSWpsblpTWHZWTFNYTjNWLXhHdmJJd1VVZHJxUmxZaThwNk5QTV9HQnB4dW54MVVxa2gxd1FmaW42YnlveElJZmRIUjRaLUJhUnp6RUJjZVVwQ3hMM0hZTUc5ampjV1ZSdVJWTEt0LXVIYmFPY0dwekkxWDAwN29ybGh4YU5jSlNMa25lMnpnZVM3dVU1b1NQaUE?oc=5" target="_blank" rel="noopener">Vance says Hormuz will be back in business after U.S.-Iran breakthrough—CNBC interview (SP500:) - Seeking Alpha</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMilgFBVV95cUxNQ3luaC1SdDluZFAzV2NHUnZhdk9GdV9oY0cybC15cU83UkZMVDlSZk9QTUdyWlNqMnJaT09raEk0dXhkLUlQUU55UFpPbkZ1eU5jdkEzYmJ4dktISWlINnVLVnVGeFY5bld6STFlamFNRGJYcWt5cmRrclUySVhKTXVIb2VpT2o0Z3BsTldFLVlkQ3FVUkHSAZYBQVVfeXFMTTY1T3ZSRDdzby01ZXhTbko1bHAtWjdwWm5yc2tUMkp2OHlxYzloeVpteXgtR0M3LVJBUzJ1V0xqT0dDYmlXQjJtdUVvZnhvWkkwMUgxTWFSTnpGYm43VkhpQjNHVjUta091TW5DMU9GREhKVXFHZFpwSWhTcWZId3ZZYm83RVdBMklpbmNiRXN5UmpmM093?oc=5" target="_blank" rel="noopener">US: Skydiving plane crash leaves 12 people dead in Missouri - DW.com</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMirgFBVV95cUxQNEVtTXNYTjN3MUIySnozcTdXOGgwblRHTDBxSVpiR05Xem14VDltdVlmcGVOX2gyWjE1MjdOUVA1M05NSEdjdzVTOFoxamNocXRqN3RYY21PdnBkX2ZQTUJhQ0NqY3ZDZzF3UGxwMTdRYlVzNmhob25KUFpvSzRrcFBYX2l6RDBPMktjNTNZdEQwdzlrekNQWU1WN045bkZaUU5xclNOR0JCZVF4anc?oc=5" target="_blank" rel="noopener">President says 250th celebration on July 4 will be a ‘Trump rally’ - The Washington Post</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMiswFBVV95cUxNUktyejVjMU0zMUJwTnliMVBoVEpIUnEyN0ZvS1o2aVRSYlJlVUtnb1pYWVpiOUhiZWR0U3NYRm5uM1l1WGdOX3h6QXFSVG0zdVZTRDhWM1UxeXFBVGdxemQ3d3lfUzJzckMwXzZ1M1VIb2l6Q1NtSFJyLXNFX3RzZVp2UDU2S2wzVy1qNFZBSG9PT3VuNEZUbXRDLTJoVDBvNEg0MWFRQVQzWmJqbUQwa1hpVQ?oc=5" target="_blank" rel="noopener">‘Snowflake’: Donald Trump&#39;s Kennedy Center cover-up sparks criticism - Euronews.com</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMirAFBVV95cUxOU1EzSU1uTXJLZmR0Y3gzNkpXUnJtRnljN3c2dW51dDM5UUpTZnJIV2ZIbnEyM1BLUHhlWG56V2taSGJBeC1pX0pncnRpZ1E1dVJidDB4cm1WNjMxX01WeHAxUU1qTUxqaEFmRG5LMGNCUnpGZkZNbHNaRjIyc3JTa0w4Yl9BTHNjVVU0eTc5LUFYT0dfSDBJTjZpR0huSzJUVVpxYS01RGRtNUl40gGyAUFVX3lxTFBpTi1oUUx3UXZocDNUdUhWVC1ROWpFU3E3RXVNQ3lHV2hqRk1nb0hvUDZROGlOWFMzRnBybUFOSHdwNkJWb05LUktmOWc1OWt6cUNVcDR0NnBlbjcydzhLM081SWtrWVF0T3RZVGlEeUZiZXd5SzdxSkZNMDNSVDh3WlhTQXpqbi1xbE1aTTJQaGZjVkN6RVMtZV9QWmxKTHQtY0Z2RDhEWWtWaWZQQWg3Q2c?oc=5" target="_blank" rel="noopener">Russian attacks in Ukraine kill 11, damage historic Kyiv cathedral - Al Jazeera</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMiWkFVX3lxTE1RdTZKN2EtMy0yZWJSdFhhREJHdHkteW03RnhhRWl1ZUg2U1V6TGZKTlJRcDhvTGE2XzRRV0JJQkFsc3hKOHNnNTF6cXlqMGRaR1dtZXowcGd4UQ?oc=5" target="_blank" rel="noopener">Brazil woman dies after rope-jumping instructors fail to attach cord - BBC</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMiWkFVX3lxTFBwSmRqS25BWV81ZGdGYTlKZkwybElmWGxxVzZsckwxekNmajdfR1ZXN3Y0QkhyUVpHSVVfem50ZFc5bDRNUDVJQUNaSmR3WjRGWGl2VVFmYUhKQQ?oc=5" target="_blank" rel="noopener">&#39;Spider-Man of Yemen&#39; dies falling into volcanic crater - BBC</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMiWkFVX3lxTE5oQmN2UW5pUHJKaVdvTlotNzlNdldpT2lCMGFaVnRkV1YwN2M4QjY5Vzd0YndqaDliUVF3VnFFZHNkd1VoZ1pnZnhlR3Z6UEtrN2ctcW9ob2wtZw?oc=5" target="_blank" rel="noopener">Two men found guilty over Starmer-linked arson attacks - BBC</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMid0FVX3lxTE5zbDM0VGZuUjNaUlp2czRlcU5ibmRvS1RMZ2hMUTctUEZ4bVZiaXhBLUZWenFLTnd0bi00WF9la2dCODNNcnpidUFya2ZfeXp0TktqSHJUc01aWUtBd3JnTUduZUQ5UktWWjBJVXpyQVRlWld4V0lr0gF8QVVfeXFMTVp6RkV3aEQ2WGpyR1VPaGhOcmdnakRaZnFxVkROc3BhN2VzazhiRW5kNWIyNmtiSmhJMEotbWJHT3IxUHlYMFg3aGpadHJMbTdRbjJ2OTNqTkkyTHBnTllaVUNyZ0Y1UldVQTdiX21aYmxQaXFrcUlIU2FYdA?oc=5" target="_blank" rel="noopener">Dow jumps 600 points, hits fresh record on potential Iran deal to end the war; SpaceX rises in second day of trading: Live updates - CNBC</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMiiwFBVV95cUxQZGx1V0l2bkdiVmlub0dxMzN5R3d4NndWMmxtX2x1TmQ3bXpPZVIzam83cGFmbjRBVmNXRTlXWURlYTRBbDNXNzJ3MzYyTkstd0wzTjE1RlhkUEpnZ1NCeUpiNUpLM3JIaGZBV3VvUTRVLWNlUVRyelAwYjBWYy12d0stcnBKVGVlZUxn?oc=5" target="_blank" rel="noopener">Fox to buy streaming pioneer Roku in a $22 billion deal - AP News</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMixwFBVV95cUxNY1daSThtUC1PU3l0aEhuQjg0MmZqZHJZTWh4ZDVyZVBKZE1lcllHN3NmNVR3OFJGMVljNUxXWk1McDk4QUZCdTV3aGV4ekh4Z25COHNwRFFhVE5ubGVYVndqNGZBTldrYXRwWUlzajJwYm42ellpdllqLWgxUWxWU1JRNXZaYTNIVnlibFF0emlvcmlTTVozMUVTaVplZWIwQTBEOU4xZHFza19tX05xc0xNekVTN1dCX0xyT3Q4T3hvOVVFZDlV?oc=5" target="_blank" rel="noopener">Warsh&#39;s debut Fed press conference may reveal his strategy for inflation, rates - Reuters</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMiyAFBVV95cUxPbzlpWmNDMDlrRHZqM3BBYUtyR0pjQWhwdFVXT25MdE96S3BaRkpKb2RXd2lteXpwNklGZHV3MDRmY1UydnRNalRxZ05Rc2owbUJuTGwzUUtMbEpDNlp4aWpJeW5wbTBtS21JQ3RZVmMzZUhvY1RZcEQxWWk0WWsyd0RCRk1xazF3eDBydWlKbEdmMFc4WkdHcGxsMjhsSTRMWjhIRER3NU1fa2dhQ3BvbUV4UEdPRXZud3VyZ2FTaXNKQlV3WmZzLQ?oc=5" target="_blank" rel="noopener">How a 90-minute White House deadline sparked Silicon Valley’s biggest AI fight - The Washington Post</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMiiAFBVV95cUxPcWxDU2prbTRfVGZKSEU0cDZLSW5XQXA4Z2U4dG1MSXFCNXREMnQwcDVkNW5zQmxrM0tUQ0lmYWw2WGVrRnlNTDdXZmFXTGxhTU5mNUJLTjh6OXlSQ05oQnhQenFRclVGMUIwT3lpdWlMZDViMVVKSC1fYWIyajFKQ3k4UGl4MUlo?oc=5" target="_blank" rel="noopener">I spent a year trying to figure out if the Trump phone is a scam - The Verge</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMioAFBVV95cUxNYnlEdnJISjM4RnE3R2F2em5BaTVrZ281bE5uQkZyUWdlQmZNRml5TzRWaFJWME5iY3VnaFFhcUdqbUJWSHFHdldILW5mNlozTWptV2Rsa1ZqR0pIOFBtcmF6YVZBRXJVVXFtUWd5UWtLanRrbXg3MjZHQVhqOUM1MDJxNno5dk13SElyandQWkw1LWVibEJ1SFFSQmZ6TC1R?oc=5" target="_blank" rel="noopener">How Apple Is Making Your Older iPhone Run Faster and Stay Alive Longer - WIRED</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMiggFBVV95cUxOUjVLZUV3aVhsZWJHTjQ5clNVRlgtdDVpSWJEM3pGY19zbVhwYm9lSk80UTNVQ3ozSHJ6RjBzRW5aM1Q0UExkbVBsVlRsaFZQT3hZcDJfT2pKYjdseE9FSWlfXzI2LUs1aHFtOFRTU1laTTB3M0RyVkV6S25icWhFSlJ3?oc=5" target="_blank" rel="noopener">Report: Microsoft weighing up spinning off Xbox - GamesIndustry.biz</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMic0FVX3lxTE5NcjN6Z1Fyd0VGNnYxZ0lUemlTR1VNbHMtTm9BcXF2bW9jLTlDYUJ2TTJ5M1lEM2xYZnRjbEVyQnlvX0pnbGNEMkJDM3drWExOME51bFZTemhoVDFzVHh1UUhLYmdLT3lURzh0ZzVpQS1YdDg?oc=5" target="_blank" rel="noopener">Why I&#39;m Telling People to Stop Hunting for Dumb TVs - CNET</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMitAFBVV95cUxOYUpxenB1SHJ6VzNOWFBXNDRrWG9HRWNoc0lxRG5GU2ItQTFuUUFoVFlZeXlOdEZHMlcyV01hLU5jNVoxbk5sM3BGSzdVLVlyZ2pvS0ZlNnJXR1JKaDRyX1BfbFl1QnlTUzREV091Z3IwdFlCWGVPcC1lbmlzTFlFZmhrbUNXQVdHVm4wVGRrTm9tRmlLZlF2Q05tQVpQZjFGc0hLRFFDQ1BhcG1DZGlBVkVRbmE?oc=5" target="_blank" rel="noopener">What we know about fatal Brazil helicopter crash; singer Oliver Tree among 6 passengers - NBC News</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMiqgFBVV95cUxPWC03SXRHWF9NN0FMWHU1NV9SSklSQVFnb0MtRlBUOEZPcjlvaGtJSGJPYlBjazZkaElHQmlXXzVzTTNqVUlGRk1FWnVIUjFnSmlNQWY4NlFGaldTcWM2LVRiNlFEQkpWSV9sNS1mWVlvRGJMaXFYYUdpWHJWYWpJY2wyUWRwM2VfVkFZeElmUmlQdEt2YnE3WkY1dGZwM2xyakt5TGk3UW5Ndw?oc=5" target="_blank" rel="noopener">‘We’re Sisters From Another Mother’: Jamie Lee Curtis and Mariska Hargitay on Their Deep Hollywood Bond and ‘Law &amp; Order: SVU’ Finally Being Run by a Woman After 26 Years - Variety</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMiogFBVV95cUxQNTlISnlFS0lFV1dxMFkwcUhjZ3ZlWTZNb2ItWHpfbk4tdGtUeV92a2EtY1RmcG55TnlnZHV4akVXYV8yTGhRV1ZaVm9FalJHNVNWRVhTdWtYWVNMRGNWS0lkaHVubFdhU0VEUm91LW5VVVhpY1E4eldCM0pNeHBUUDU3akhoYzBSRHNraWJ4TzdYMFRaMll1ODNRWC1IMVY1Zmc?oc=5" target="_blank" rel="noopener">Curry Barker Got His Wish: Inside the ‘Obsession’ Director’s Wild Month (Exclusive) - The Hollywood Reporter</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMijgFBVV95cUxNM1l5WGluZE1FS2I4R1hrQ2Z5ejduT1BkMlRJLVRoWEZleDZvOVBnSVd3MXVPRHJyX3dwYU8zdFlBRktxR1NhbERuN2NoSDhvbGFCLUJGNFQwcG5nc1VOaERkSFpXM0Mxbk9fY25Lay1SR3htRzJ4NU9fcnRLTDRrMjUzc2Z3UVo1WE1rc3pR?oc=5" target="_blank" rel="noopener">Disclosure Day: alien conspiracies, car chases and a jaw-dropping climax – discuss with spoilers - The Guardian</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMi6wFBVV95cUxPQ3ZLeXBIbThjU2FBbVZlYnU3N3BEVUlzQUpVVExsaUJUNDduQjFtcEhFTzg5R1VkeHlpMnQxWGJ1VWpLYldnaHJ2TTJuWllyeHZtZDN2cHpMZUE2a1l1S3piRUdDN0FlSTV1U04zVnZEaXNHQklwbXRaa3VGdV9fdS1pN0RZeDhXMW1tWlcxMi1lWEhONHpNdkkwWnoyQjl4NnBiS0dHOU9LeFJZWUJUQ045MmJtWUtxUDlJSEpDaUpUWk5fNUV4ckFTN3RNbGtjcnk5dVZYOFVwNDRVQXhZZXpPdkF3eUxaWmdv?oc=5" target="_blank" rel="noopener">UFC Freedom 250 results: Justin Gaethje shocks Ilia Topuria, pulls off ultimate U.S. upset on White House lawn - Yahoo Sports</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMi2wFBVV95cUxQaWpDcEtCZE5Ud2pUVm5ySm5YMjBfUmNMQ3QzQmhjZG95eFU3cmxobEplLUNmQ0s1WUFhQ1g2UERuX1FtQThlZ3FLOHJIX1RzVWkzVXloSzdxcFFkMi15YllGOW9IYUZtRFYzc1ZieVAxNExjeFVfTE1pdHB6ZTZlWkQwYVVWS0ZVVEhhdnZqYTVWR1R2a3ZpWE1YNGZUSGJOTnhzOGp6MmFUQUxOUFNaNzg1SnZrLU9sclBYWW1VaVhCN05lRlhDaEpvM20tcS1IRG8zUWgyZExUQzQ?oc=5" target="_blank" rel="noopener">Aldon Smith’s final interview, from a recent barber shop visit, was posted last week - NBC Sports</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMiiwFBVV95cUxPcnVYVWxXVEJRUlBVb3B4UTI2Vzc2VXBwellzTFlPVFdvM0NLdnVNZGpSRmZOT1dwcXNqbXNHZWVUVHFVQVVkV1NyVDE5ZGh3ZS1tUDJWTFU3WnFNRmhHbXhHbU81WjM3QUpPT1VQMWx4RUdjMnVuRGYzVVkwR3FYYXZHQ2lVNWJyb0Mw?oc=5" target="_blank" rel="noopener">The Knicks made a championship run that will be remembered in New York and in NBA history - AP News</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMitgFBVV95cUxQUlBBNjl2cllpLUV4TGtwNThOd3phazhyMmUtZDFrTkhDRnBWSjFTaC1nQ3p3bGwtOG94MWNfM0tzTlM2X3dpcFFyZ0dDY0NGaWIyODA2dGJSSFItY3ltRHdLcUJnb2dGZk45NnA0QXRMbnVKU0FTYjJfQlNRaFNtbnhsU1c4ZHpSMHo1d0ZqQm5IRG54T1p2Z2ktVE9YNloxZldQdTY3NDk4M2JaMEw1bjdDUkp5Zw?oc=5" target="_blank" rel="noopener">Russia appears set to finally address long-term, serious space station cracks - Ars Technica</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMie0FVX3lxTE1VSkhkYmRhekZsMGRUbHdhNjlLQ21LRmFuQzE2Zm1nWXVpMkkxdzNITVpyeUM3UHZlS0RuSXowZ3FhRzMwR3I0VDY0NzBOdDluc29iWVFMYTRhbG05S1FTU0xQR21JVGhtaEkxc0M4RTROd0stamt2OGt5bw?oc=5" target="_blank" rel="noopener">Congo reports a record daily increase in Ebola cases a month after outbreak was declared - AP News</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMieEFVX3lxTE5INElTYzJOWlY5YmRrSFc1NndYSnhzNElpNGhXaWhkWnZTNGg5VVRoSmRFSUx1eklSUDJGV1l1UmNhelNab2Nyd0UxbGI0UlJUclVUaTZqazNEdjB2ZV93MlJ1dlAxQjB5VTVxd2VfVVhmRWtkc2RMVw?oc=5" target="_blank" rel="noopener">Another possible benefit of GLP-1s? Improved male fertility - CNN</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMiugFBVV95cUxQWEpKV01NUkgzR2ZoNUVHUnI5b2hwa0gzLXJ0TUU3Mk1zSlB0aE1HX1lmcjA5UUxPanJjbFlldk5VMnItQ2xOV2FORjNTdDk3R2Nta25XWGEyX3ZwRFZtU2tkYjJpcWowOHJtRWNGVFJMYWlfRzV3YjZpcFlFZXBVQkQyX3JxWnVveGd6eTZqUzVZQkZGbFU2ZHl0YUlWNmNrc1VGU1pVTUJQM1pVV2dsbThVbDhnVzBUWWc?oc=5" target="_blank" rel="noopener">Experimental treatment kills prostate tumor cells while reawakening antitumor immunity - Cornell Chronicle</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://andreklein.net/your-epub-is-fine-kobo-disagrees-blame-adobe/" target="_blank" rel="noopener">Your ePub Is fine</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">Hacker News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://www.reddit.com/r/technology/comments/1u6f1k9/microsofts_new_outlook_takes_10_seconds_to_do/" target="_blank" rel="noopener">Microsoft&#39;s new Outlook takes 10 seconds to do what Outlook Classic does instantly on Windows</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">r/technology</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://www.reddit.com/r/technology/comments/1u6dr6x/fox_to_acquire_roku_in_22_billion_deal/" target="_blank" rel="noopener">Fox to Acquire Roku in $22 Billion Deal</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">r/technology</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://www.reddit.com/r/technology/comments/1u6dzgh/major_publishers_sue_meta_for_copyright/" target="_blank" rel="noopener">Major publishers sue Meta for copyright infringement over AI training</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">r/technology</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://www.reddit.com/r/technology/comments/1u6dzjx/worries_over_water_as_a_giant_data_center_moves/" target="_blank" rel="noopener">Worries over water as a giant data center moves into the New Mexico desert</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">r/technology</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://www.reddit.com/r/technology/comments/1u6e9sg/fox_is_buying_roku_in_22_billion_streaming_deal/" target="_blank" rel="noopener">Fox Is Buying Roku in $22 Billion Streaming Deal</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">r/technology</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://www.reddit.com/r/technology/comments/1u6f8v9/chinas_universities_cut_12000_obsolete_degrees/" target="_blank" rel="noopener">China&#39;s universities cut 12,000 &#39;obsolete&#39; degrees amid race to embrace AI era</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">r/technology</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://www.reddit.com/r/technology/comments/1u6i0je/it_is_trivially_easy_to_use_reddit_to_manipulate/" target="_blank" rel="noopener">It Is Trivially Easy to Use Reddit to Manipulate AI Search, Research Suggests / A tiny snippet of user-generated text as short as 13 words long is often enough to manipulate the AI agents that power tools like ChatGPT and Google’s AI search, new research shows.</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">r/technology</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://www.reddit.com/r/technology/comments/1u6eeky/data_center_opponents_have_blocked_or_delayed/" target="_blank" rel="noopener">Data center opponents have blocked or delayed projects worth nearly $130 billion in 2026, study finds</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">r/technology</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://www.reddit.com/r/technology/comments/1u6a7hu/uk_introduces_full_social_media_ban_for_under_16s/" target="_blank" rel="noopener">UK Introduces Full Social Media Ban For Under 16s - Including X, YouTube, TikTok</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">r/technology</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://github.com/tamnd/kage" target="_blank" rel="noopener">Show HN: Kage – Shadow any website to a single binary for offline viewing</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">Hacker News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://github.com/nex-agi/Nex-N2/issues/4" target="_blank" rel="noopener">Rio de Janeiro&#39;s &#34;homegrown&#34; LLM appears to be a merge of an existing model</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">Hacker News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMi0wFBVV95cUxOdDlPcDQxZ0FYRGhiVTlkUEdlblNPdmUtVDhTRHc2NEFyY3BjaUNPZzB0WUJmZWRORS1DeW1veWlHZVNpaXM5SndSbV84WE5PY1dCLXBRRm1NZjFzejdKdnFNaXA5eGhOekZQRE1xenBDT0hiWU1GVmlFNDRZYUNfeDQ4ajVDZDN2NVpSWmc0bWdNeVhYbkhWRmdXOFZ4TTh1bDVuLVRBbF94Z1JTT01FWDNPWWtpUVRNNDZqS2ZTOUNSNmg5YXNFckwzdXFXS3o4QkI0?oc=5" target="_blank" rel="noopener">Giants&#39; Jameis Winston Helps Japan Fans Clean Up Cowboys&#39; Stadium in Video After FIFA World Cup Game - Bleacher Report</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMilwFBVV95cUxQenJzbzV0WVVzaUw5VjV6Ylh0S1hwU29PTHdPWndpa0JLNmFsNmlGYldBQ2hGamU1b0NrYmpldlZtOXFMWlFaYi1SNEU3MXJIVHlwRkJnNmhXRWxPdU9UaVpRa1hHWmN2cHU0ZzFYa3pZQ2dTUmJUVldjLWE0VG1Hc2JMZVlWM0ZzajhxNTBwcHgyMWVTQXJv?oc=5" target="_blank" rel="noopener">68 quadrillion underground miles of fungi - The Seattle Times</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://www.reddit.com/r/technology/comments/1u61fal/washburn_high_school_teacher_took_tech_out_of_the/" target="_blank" rel="noopener">Washburn High School teacher took tech out of the classroom. Students call it a success.: At the beginning of the school year, 46% of students reported confidence in their reading abilities. By February, it was at 96%.</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">r/technology</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://www.reddit.com/r/technology/comments/1u60em3/locals_affected_by_irelands_ai_data_centre_boom/" target="_blank" rel="noopener">Locals affected by Ireland&#39;s AI data centre boom share &#39;cautionary tales&#39;</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">r/technology</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://www.reddit.com/r/technology/comments/1u6036r/google_ceo_sundar_pichai_passes_on_ai_in_stanford/" target="_blank" rel="noopener">Google CEO Sundar Pichai passes on AI in Stanford grad speech</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">r/technology</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://www.reddit.com/r/technology/comments/1u5zrqh/amd_taunts_apples_macbook_neo_for_failing_to_run/" target="_blank" rel="noopener">AMD taunts Apple&#39;s MacBook Neo for failing to run 75% of top PC games — Only 5 out of the 20 top PC games work on the Neo, while all run on AMD&#39;s budget offerings</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">r/technology</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://www.reddit.com/r/technology/comments/1u5zpp1/amazon_says_its_data_centers_consume_only_0075_of/" target="_blank" rel="noopener">Amazon says its data centers consume only 0.075% of the water Americans use for watering their lawns and gardens</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">r/technology</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://www.reddit.com/r/technology/comments/1u5zpir/scientists_discover_a_strange_global_pattern_in/" target="_blank" rel="noopener">Scientists Discover a Strange Global Pattern in The Way Humans Walk</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">r/technology</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://www.reddit.com/r/technology/comments/1u5z463/ai_is_code_and_cant_be_prompted_into_being/" target="_blank" rel="noopener">AI is code and can’t be prompted into being smarter — From Java tests to Shai-Hulud, bots keep proving they’ll swallow anything you feed them</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">r/technology</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://www.reddit.com/r/technology/comments/1u5yz3y/emily_blunt_refused_steven_spielbergs_offer_to/" target="_blank" rel="noopener">Emily Blunt refused Steven Spielberg&#39;s offer to use AI for her alien voice in &#39;Disclosure Day&#39;</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">r/technology</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMikgFBVV95cUxNd0tlclBqN2ZEVjRZcmNEZjRvX1NrNVdoOGlfV2VGNG02U2lNV1BHNmZNcmNjQWJjeUJLWnhCak1md3JjWGxhZUVpMlp1Qm1LeWd5RFBkT01jUTBUVmRJbHZySmZueTFEeU0zUm1CWS1sR3VpUEMwQ0JGbDg1cnE5UW1TRTdTRjdXajJpZHgybzFHZw?oc=5" target="_blank" rel="noopener">Scientists Investigate Strange Rumbling Beneath Utah - Yahoo News New Zealand</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://bitsy.org/" target="_blank" rel="noopener">Bitsy</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">Hacker News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://www.reddit.com/r/technology/comments/1u5w2gr/ai_is_making_promises_your_brand_never_made/" target="_blank" rel="noopener">AI is making promises your brand never made. Hotels are paying the price</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">r/technology</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://www.reddit.com/r/technology/comments/1u5vf8j/all_the_ways_europe_is_ditching_american/" target="_blank" rel="noopener">All the Ways Europe Is Ditching American Technology</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">r/technology</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://www.reddit.com/r/technology/comments/1u5up6d/fbi_disrupts_massive_aipowered_phishing_service/" target="_blank" rel="noopener">FBI disrupts massive AI-powered phishing service using a million URLs</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">r/technology</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://www.reddit.com/r/technology/comments/1u5ufgs/a_200_chatgpt_subscription_could_cost_openai/" target="_blank" rel="noopener">A $200 ChatGPT subscription could cost OpenAI $14,000 if you actually used it to its full potential</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">r/technology</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://www.reddit.com/r/technology/comments/1u5ucnt/nothing_ceo_says_phone_prices_are_going_to_keep/" target="_blank" rel="noopener">Nothing CEO says phone prices are going to keep going up: RAM now accounts for over 50 percent of the cost of a new phone</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">r/technology</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://www.reddit.com/r/technology/comments/1u5s4p8/starmer_to_unveil_social_media_ban_for_under16s/" target="_blank" rel="noopener">Starmer to unveil social media ban for under-16s</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">r/technology</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://screen.toys/firewood/" target="_blank" rel="noopener">Firewood Splitting Simulator</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">Hacker News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://www.reddit.com/r/technology/comments/1u5rmbf/ai_job_disruption_is_here_the_problem_may_be/" target="_blank" rel="noopener">AI job disruption is here. The problem may be compounded because nearly 75% of people don’t apply for unemployment benefits</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">r/technology</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://www.reddit.com/r/technology/comments/1u5q98e/chinese_drivers_are_using_tiny_plastic_heads_to/" target="_blank" rel="noopener">Chinese Drivers Are Using Tiny Plastic Heads to Fool Tesla’s Autopilot Safeguards</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">r/technology</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMiakFVX3lxTFBwOE10Yk1tSXNrRk1nMHF0alZMdXNMajR1YW1MUnk2ZVJMOUV1allZR1VPVWF2aVdNeWNFemRhTGd6NWNUQzBrM2JKbW91OXA0Qkhyb2tFdkRSeGRIaUtTSEpXVm54WmtQM3c?oc=5" target="_blank" rel="noopener">GLP-1 Therapies Silence Spontaneous Physical Activity - Neuroscience News</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+  <article class="card" data-tag="other">
+    <a class="title" href="https://news.google.com/rss/articles/CBMid0FVX3lxTE1EcTNQX2lyRFRDU3JkY3hJb0hEUnJkV1NCVXdVLWNvbERnNUJBQVhPS0ZHUHY5N0R6dHhadEE0enRvVFFrWmRiVl9JX0ViNEotUTJUbVdQb1pHbWFLWmpnZ29lWW9NckIyNXdOMW4tWkNMMzB5OFlR?oc=5" target="_blank" rel="noopener">Revised Artemis lunar lander plans take shape - SpaceNews</a>
+    
+    <div class="row">
+      <span class="tag">news</span>
+      <span class="src">World News</span>
+      
+      
+    </div>
+  </article>
+  
+</main>
+
+<footer>built by build.py · GitHub Pages · self-curated, no algorithm but yours</footer>
+
+<script>
+  const chips = document.querySelectorAll('#filters .chip');
+  const cards = document.querySelectorAll('#list .card');
+  chips.forEach(chip => chip.addEventListener('click', () => {
+    chips.forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    const tag = chip.dataset.tag;
+    cards.forEach(card => {
+      card.style.display = (tag === 'all' || card.dataset.tag === tag) ? '' : 'none';
+    });
+  }));
+</script>
+</body>
+</html>

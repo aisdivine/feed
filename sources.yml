@@ -1,0 +1,65 @@
+# ─────────────────────────────────────────────────────────────────────────
+# Your feed sources. Add/remove freely. Each source has:
+#   name:   display label
+#   type:   rss | reddit
+#   url:    the feed URL (rss) or subreddit JSON (reddit)
+#   weight: 0.0–2.0 multiplier on the rank score (higher = floats up)
+#   tag_hint: optional default category if the LLM is unsure
+# ─────────────────────────────────────────────────────────────────────────
+
+# Tune how aggressively the LLM filters. The build keeps items whose
+# relevance score is >= min_score (0–10). Lower = more items survive.
+min_score: 4
+
+# A short description of YOU — what you care about. The LLM scores each item's
+# relevance against this. Edit it to reshape the whole feed.
+interests: >
+  AI and machine learning, software engineering and developer tools,
+  startups and tech business, science and space, and significant world news.
+  Not interested in crypto price talk, celebrity gossip, or low-effort outrage.
+
+sources:
+  # ── Hacker News (only stories above the points threshold = instant filter) ──
+  - name: Hacker News
+    type: rss
+    url: https://hnrss.org/frontpage?points=150
+    weight: 1.3
+    tag_hint: tech
+
+  # ── World / general news (Google News top stories RSS) ──
+  - name: World News
+    type: rss
+    url: https://news.google.com/rss?hl=en-US&gl=US&ceid=US:en
+    weight: 1.0
+    tag_hint: world
+
+  # ── Reddit (native RSS, top of the day) ──
+  # NOTE: Reddit's JSON API (type: reddit) 403s from cloud/datacenter IPs like
+  # GitHub Actions. The .rss endpoints below are far more reliable there. If
+  # even these get rate-limited (429) in Actions, route them through RSSHub:
+  #   https://<your-rsshub>/reddit/r/technology/top/day
+  - name: r/technology
+    type: rss
+    url: https://www.reddit.com/r/technology/top/.rss?t=day
+    weight: 0.9
+    tag_hint: tech
+
+  - name: r/worldnews
+    type: rss
+    url: https://www.reddit.com/r/worldnews/top/.rss?t=day
+    weight: 0.9
+    tag_hint: world
+
+  # ── Twitter / X — via a RSSHub instance. Point this at YOUR curated list. ──
+  # 1. Make a private Twitter List of ~30 high-signal accounts.
+  # 2. Self-host RSSHub (docker run -d -p 1200:1200 diygod/rsshub) or use a
+  #    public instance, then set the route below. List route example:
+  #      https://<your-rsshub>/twitter/list/<list_id>
+  #    User route example:
+  #      https://<your-rsshub>/twitter/user/<username>
+  # 3. Uncomment and fill in once you have an endpoint.
+  # - name: Twitter (my list)
+  #   type: rss
+  #   url: https://your-rsshub.example.com/twitter/list/1234567890
+  #   weight: 1.1
+  #   tag_hint: tech
